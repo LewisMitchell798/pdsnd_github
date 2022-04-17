@@ -41,7 +41,6 @@ def get_filters():
 def load_data(city, month, day):
     """
     Loads data for the specified city and filters by month and day if applicable.
-
     Args:
         (str) city - name of the city to analyze
         (str) month - name of the month to filter by, or "all" to apply no month filter
@@ -108,8 +107,7 @@ def station_stats(df):
 
     # TO DO: display most frequent combination of start station and end station trip
     Start_End_Station_Combination = df.groupby(['Start Station', 'End Station']).size().nlargest(1)
-    print('\nMost popular Start End Station combination:')
-    print(Start_End_Station_Combination)
+    print('\nMost popular Start End Station combination: ', Start_End_Station_Combination)
 
     print("\nThis took {0:.3f} seconds.".format(time.time() - start_time))
     print('-'*40)
@@ -141,16 +139,14 @@ def user_stats(df):
 
     # TO DO: Display counts of user types
     Counts_of_user_types = df['User Type'].value_counts()
-    print('The number of user types is:')
-    print(Counts_of_user_types)
+    print('The number of user types is: ', Counts_of_user_types)
 
     # TO DO: Display counts of gender
     if 'Gender' not in df.columns:
         print("\nThere is no gender column in this dataset")
     else:
         Counts_of_gender = df['Gender'].value_counts()
-        print('\nThe number of gender types is:')
-        print(Counts_of_gender)
+        print('\nThe number of gender types is: ', Counts_of_gender)
 
     # TO DO: Display earliest, most recent, and most common year of birth
     if 'Birth Year' not in df.columns:
