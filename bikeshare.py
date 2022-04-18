@@ -41,7 +41,6 @@ def get_filters():
 def load_data(city, month, day):
     """
     Loads data for the specified city and filters by month and day if applicable.
-
     Args:
         (str) city - name of the city to analyze
         (str) month - name of the month to filter by, or "all" to apply no month filter
@@ -52,7 +51,7 @@ def load_data(city, month, day):
     df = pd.read_csv(CITY_DATA[city])
     df['Start Time'] = pd.to_datetime(df['Start Time'])
     df['month'] = df['Start Time'].dt.month
-    df['day_of_week'] = df['Start Time'].dt.weekday_name
+    df['day_of_week'] = df['Start Time'].dt.day_name()
     if month != 'all':
         months =['january', 'february', 'march', 'april', 'may', 'june']
         month = months.index(month)+1
@@ -108,12 +107,10 @@ def station_stats(df):
 
     # TO DO: display most frequent combination of start station and end station trip
     Start_End_Station_Combination = df.groupby(['Start Station', 'End Station']).size().nlargest(1)
-    print('\nMost popular Start End Station combination:')
-    print(Start_End_Station_Combination)
+    print('\nMost popular Start End Station combination: ', Start_End_Station_Combination)
 
     print("\nThis took {0:.3f} seconds.".format(time.time() - start_time))
     print('-'*40)
-    return popular_start_station, popular_end_station, Start_End_Station_Combination
 
 def trip_duration_stats(df):
     """Displays statistics on the total and average trip duration."""
@@ -131,7 +128,6 @@ def trip_duration_stats(df):
 
     print("\nThis took {0:.3f} seconds.".format(time.time() - start_time))
     print('-'*40)
-    return Total_travel_time_days, Mean_travel_time_mins
 
 def user_stats(df):
     """Displays statistics on bikeshare users."""
@@ -141,16 +137,14 @@ def user_stats(df):
 
     # TO DO: Display counts of user types
     Counts_of_user_types = df['User Type'].value_counts()
-    print('The number of user types is:')
-    print(Counts_of_user_types)
+    print('The number of user types is: ', Counts_of_user_types)
 
     # TO DO: Display counts of gender
     if 'Gender' not in df.columns:
         print("\nThere is no gender column in this dataset")
     else:
         Counts_of_gender = df['Gender'].value_counts()
-        print('\nThe number of gender types is:')
-        print(Counts_of_gender)
+        print('\nThe number of gender types is: ', Counts_of_gender)
 
     # TO DO: Display earliest, most recent, and most common year of birth
     if 'Birth Year' not in df.columns:
